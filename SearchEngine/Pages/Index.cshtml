@@ -1,0 +1,34 @@
+﻿@page
+@using EuropePMC
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+    EuropePMC.WSCitationImpl service = new WSCitationImplClient();
+
+    searchPublicationsResponse1 test = await service.searchPublicationsAsync(new searchPublicationsRequest()
+            {
+                queryString = "test",
+                cursorMark = "*"
+            });
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <input type="search" class="search form-control" placeholder="Search here..." />
+        </div>
+        <div class="col-2">
+            <button class="btn btn-outline-primary ">Search</button>
+        </div>
+    </div>
+</div>
+<hr />
+<ol>
+    @foreach (var item in test.@return.resultList.Select(x => x.title))
+    {
+        <li>@item</li>
+    }
+    </>
+</ol>
