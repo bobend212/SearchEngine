@@ -3,46 +3,17 @@
 @using System.Globalization
 @model IndexModel
 @{
-    //ViewData["Title"] = "Home page";
-
-    //EuropePMC.WSCitationImpl service = new WSCitationImplClient();
-
-    //searchPublicationsResponse1 test = await service.searchPublicationsAsync(new searchPublicationsRequest()
-    //        {
-    //            queryString = "test",
-    //            cursorMark = "*"
-    //        });
-
-    //        var x = test.@return.resultList;
-
+    ViewData["Title"] = "Home";
 }
-
-@*<div class="container">
-    <div class="row">
-        <div class="col-10">
-            <input type="search" class="search form-control" placeholder="Search here..." />
-        </div>
-        <div class="col-2">
-            <button class="btn btn-outline-primary">Search</button>
-        </div>
-    </div>
-</div>*@
-
-@*<form asp-controller="Index" asp-action="Index" method="get">
-    <p>
-        <input type="text" name="searchString" />
-        <input type="submit" value="Search" />
-    </p>
-</form>*@
 
 <div class="container">
 
     <form method="post" asp-page-handler="SearchPublication">
         <div class="row">
-            <div class="col-10">
+            <div class="col-11">
                 <input type="search" class="search form-control" placeholder="Search here..." name="test2" />
             </div>
-            <div class="col-2">
+            <div class="col-1" style="text-align: center">
                 <button class="btn btn-outline-primary">Search</button>
             </div>
         </div>
@@ -50,25 +21,22 @@
 
 </div>
 
-
 <hr />
-
-@*<ol>
-    @foreach (var item in test.@return.resultList.Select(x => x.title))
-    {
-        <li>@item</li>
-    }
-    </>
-</ol>*@
 
 @if (@Model.TotalCount > 0)
 {
-    <div class="text-center">found <b>@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</b> publications </div>
-    <table class="table">
+    <p class="text-center">found <b>@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</b> publications </p>
+    <table class="table table-sm table-bordered">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Collection[0].title)
+                    Title
+                </th>
+                <th>
+                    Author(s)
+                </th>
+                <th>
+                    Publication Date
                 </th>
             </tr>
         </thead>
@@ -77,6 +45,8 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(x => item.title)</td>
+                    <td>@Html.DisplayFor(x => item.authorString)</td>
+                    <td>@Convert.ToDateTime(item.firstPublicationDate).ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</td>
                 </tr>
             }
         </tbody>
