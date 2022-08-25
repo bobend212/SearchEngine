@@ -1,34 +1,91 @@
 ﻿@page
 @using EuropePMC
+@using System.Globalization
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    //ViewData["Title"] = "Home page";
 
-    EuropePMC.WSCitationImpl service = new WSCitationImplClient();
+    //EuropePMC.WSCitationImpl service = new WSCitationImplClient();
 
-    searchPublicationsResponse1 test = await service.searchPublicationsAsync(new searchPublicationsRequest()
-            {
-                queryString = "test",
-                cursorMark = "*"
-            });
+    //searchPublicationsResponse1 test = await service.searchPublicationsAsync(new searchPublicationsRequest()
+    //        {
+    //            queryString = "test",
+    //            cursorMark = "*"
+    //        });
+
+    //        var x = test.@return.resultList;
 
 }
 
-<div class="container">
+@*<div class="container">
     <div class="row">
         <div class="col-10">
             <input type="search" class="search form-control" placeholder="Search here..." />
         </div>
         <div class="col-2">
-            <button class="btn btn-outline-primary ">Search</button>
+            <button class="btn btn-outline-primary">Search</button>
         </div>
     </div>
+</div>*@
+
+@*<form asp-controller="Index" asp-action="Index" method="get">
+    <p>
+        <input type="text" name="searchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>*@
+
+<div class="container">
+
+    <form method="post" asp-page-handler="SearchPublication">
+        <div class="row">
+            <div class="col-10">
+                <input type="search" class="search form-control" placeholder="Search here..." name="test2" />
+            </div>
+            <div class="col-2">
+                <button class="btn btn-outline-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
 </div>
+
+
 <hr />
-<ol>
+
+@*<ol>
     @foreach (var item in test.@return.resultList.Select(x => x.title))
     {
         <li>@item</li>
     }
     </>
-</ol>
+</ol>*@
+
+@if (@Model.TotalCount > 0)
+{
+    <div class="text-center">found <b>@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</b> publications </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Collection[0].title)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Collection)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => item.title)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="text-center">
+        <h3>Nothing found</h3>
+    </div>
+}
+
