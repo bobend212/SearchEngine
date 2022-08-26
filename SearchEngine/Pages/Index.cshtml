@@ -49,15 +49,19 @@
                 <th>
                     Publication Date
                 </th>
+                <th>
+                    #
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Collection)
             {
                 <tr>
-                    <td>@Html.DisplayFor(x => item.title)</td>
-                    <td>@Html.DisplayFor(x => item.authorString)</td>
+                    <td>@item.title</td>
+                    <td>@item.authorString</td>
                     <td>@Convert.ToDateTime(item.firstPublicationDate).ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</td>
+                    <td><a href="http://europepmc.org/article/@item.source/@item.pmid" target="_blank">open</a></td>
                 </tr>
             }
         </tbody>
