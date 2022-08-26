@@ -11,7 +11,7 @@
     <form method="post" asp-page-handler="SearchPublication">
         <div class="row">
             <div class="col-11">
-                <input type="search" class="search form-control" placeholder="Search here..." name="test2" />
+                <input type="search" class="search form-control" placeholder="Search here..." name="search" />
             </div>
             <div class="col-1" style="text-align: center">
                 <button class="btn btn-outline-primary">Search</button>
@@ -21,11 +21,18 @@
 
 </div>
 
+<form method="post" asp-page-handler="NextPage">
+    <button class="btn btn-outline-primary">Next</button>
+</form>
+
 <hr />
 
 @if (@Model.TotalCount > 0)
 {
     <p class="text-center">found <b>@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</b> publications </p>
+
+    @*<p>NextPageStr: </p>*@
+
     <table class="table table-sm table-bordered">
         <thead>
             <tr>
@@ -58,4 +65,5 @@ else
         <h3>Nothing found</h3>
     </div>
 }
+
 
