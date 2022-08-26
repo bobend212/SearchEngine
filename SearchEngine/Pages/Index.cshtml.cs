@@ -9,13 +9,11 @@ namespace SearchEngine.Pages
 
         public IList<result> Collection { get; set; }
         public int TotalCount { get; set; }
-        //public string NextPageString { get; set; }
-        //public string SearchText { get; set; }
 
         private searchPublicationsRequest request;
 
-        static string qString = "SRC:*";
-        static string qMark = "*";
+        private static string qString = "SRC:*";
+        private static string qMark = "*";
 
         public IndexModel()
         {
@@ -26,20 +24,12 @@ namespace SearchEngine.Pages
 
         private async Task LoadPublications(string searchText)
         {
+            request.queryString = searchText;
+            request.cursorMark = "*";
+
             searchPublicationsResponse1 response = await service.searchPublicationsAsync(request);
 
-            //NextPageString = response.@return.nextCursorMark;
-            //SearchText = searchText;
-
             qString = searchText;
-
-
-            //searchPublicationsResponse1 response2 = await service.searchPublicationsAsync(new searchPublicationsRequest()
-            //{
-            //    queryString = qString,
-            //    cursorMark = qMark
-            //});
-
             qMark = response.@return.nextCursorMark;
 
             Collection = response.@return.resultList;
@@ -48,24 +38,13 @@ namespace SearchEngine.Pages
 
         public async Task OnGetAsync()
         {
-            //await LoadPublications("SRC:*");
-
             request.queryString = "SRC:*";
             request.cursorMark = "*";
 
             searchPublicationsResponse1 response = await service.searchPublicationsAsync(request);
 
-            request.queryString = "SRC:*";
-            request.cursorMark = qMark;
-
-            //NextPageString = response.@return.nextCursorMark;
-            //SearchText = searchText;
-
-            //searchPublicationsResponse1 response2 = await service.searchPublicationsAsync(new searchPublicationsRequest()
-            //{
-            //    queryString = "SRC:*",
-            //    cursorMark = "*"
-            //});
+            qMark = response.@return.nextCursorMark;
+            qString = "SRC:*";
 
             Collection = response.@return.resultList;
             TotalCount = response.@return.hitCount;
@@ -87,17 +66,7 @@ namespace SearchEngine.Pages
         {
             searchPublicationsResponse1 response = await service.searchPublicationsAsync(request);
 
-            //NextPageString = response.@return.nextCursorMark;
-            //SearchText = searchText;
-
-            //qString = qString;
             qMark = response.@return.nextCursorMark;
-
-            //searchPublicationsResponse1 response2 = await service.searchPublicationsAsync(new searchPublicationsRequest()
-            //{
-            //    queryString = qString,
-            //    cursorMark = qMark
-            //});
 
             Collection = response.@return.resultList;
             TotalCount = response.@return.hitCount;
