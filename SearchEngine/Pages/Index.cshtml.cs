@@ -5,71 +5,61 @@ namespace SearchEngine.Pages
 {
     public class IndexModel : PageModel
     {
-        private EuropePMC.WSCitationImpl service = new WSCitationImplClient();
-
-        public IList<result> Collection { get; set; }
+        private SearchService searchService = ApplicationContext.GetSearchService();
+        public IList<result> Publications { get; set; }
         public int TotalCount { get; set; }
 
-        private searchPublicationsRequest request;
-
-        private static string qString = "SRC:*";
-        private static string qMark = "*";
-
-        public IndexModel()
-        {
-            request = new searchPublicationsRequest();
-            request.queryString = qString;
-            request.cursorMark = qMark;
-        }
-
-        private async Task LoadPublications(string searchText)
-        {
-            request.queryString = searchText;
-            request.cursorMark = "*";
-
-            searchPublicationsResponse1 response = await service.searchPublicationsAsync(request);
-
-            qString = searchText;
-            qMark = response.@return.nextCursorMark;
-
-            Collection = response.@return.resultList;
-            TotalCount = response.@return.hitCount;
-        }
+        public string SearchQuery { get; set; }
 
         public async Task OnGetAsync()
         {
-            request.queryString = "SRC:*";
-            request.cursorMark = "*";
-
-            searchPublicationsResponse1 response = await service.searchPublicationsAsync(request);
-
-            qMark = response.@return.nextCursorMark;
-            qString = "SRC:*";
-
-            Collection = response.@return.resultList;
-            TotalCount = response.@return.hitCount;
+            ApplicationContext.Reset();
+            searchService = ApplicationContext.GetSearchService();
+            await ShowPublications();
         }
 
         public async Task OnPostSearchPublication(string search)
         {
-            if (!String.IsNullOrWhiteSpace(search))
+            if (String.IsNullOrWhiteSpace(search))
             {
-                await LoadPublications(search);
+                ApplicationContext.Reset();
+                searchService = ApplicationContext.GetSearchService();
+                await ShowPublications();
             }
             else
             {
-                await LoadPublications("SRC:*");
+                await ShowSpecificPublications(search);
+                SearchQuery = $"\"{search}\"";
             }
         }
 
         public async Task OnPostNextPage()
         {
-            searchPublicationsResponse1 response = await service.searchPublicationsAsync(request);
+            string currentCursorMark = searchService.CurrentCursorMark();
+            string currentSearch = searchService.CurrentSearch();
 
-            qMark = response.@return.nextCursorMark;
+            if (currentCursorMark == "*")
+            {
+                Publications = await searchService.LoadSpecificPublications(currentSearch, searchService.GetNextCursorMark());
+                TotalCount = searchService.CountPublications();
+                return;
+            }
 
-            Collection = response.@return.resultList;
-            TotalCount = response.@return.hitCount;
+            Publications = await searchService.LoadSpecificPublications(currentSearch, currentCursorMark);
+            TotalCount = searchService.CountPublications();
+        }
+
+        private async Task ShowPublications()
+        {
+            Publications = await searchService.LoadPublications();
+            TotalCount = searchService.CountPublications();
+        }
+
+        private Task ShowSpecificPublications(string searchText)
+        {
+            Publications = searchService.LoadSpecificPublications(searchText).Result;
+            TotalCount = searchService.CountPublications();
+            return Task.CompletedTask;
         }
     }
 }

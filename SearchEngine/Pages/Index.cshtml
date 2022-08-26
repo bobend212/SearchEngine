@@ -23,11 +23,18 @@
 @if (@Model.TotalCount > 0)
 {
     <div style="display: flex; justify-content: space-between; align-items: baseline">
+
         <div>
-            <p>found <b>@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</b> publications </p>
+            <p>Found <b>@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</b> publications </p>
         </div>
+        @if (!String.IsNullOrEmpty(@Model.SearchQuery))
+        {
+            <div>
+                Search query: <b><i>@Model.SearchQuery</i></b>
+            </div>
+        }
         <div>
-            @if (@Model.Collection.Count >= 25)
+            @if (@Model.Publications.Count >= 25)
             {
                 <form method="post" asp-page-handler="NextPage">
                     <button class="btn btn-primary">Next Page</button>
@@ -55,7 +62,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Collection)
+            @foreach (var item in Model.Publications)
             {
                 <tr>
                     <td>@item.title</td>
@@ -70,7 +77,7 @@
 else
 {
     <div class="text-center p-2" style="border: solid black 1px; border-radius: 10px">
-        <h4>There are no publications matching your query.</h4>
+        <h4>There are no publications matching <b><i>@Model.SearchQuery</i></b> query.</h4>
     </div>
 }
 
