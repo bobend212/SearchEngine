@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchEngine", "SearchEngine\SearchEngine.csproj", "{4ACD6A01-8447-4603-98F1-A15D9DD642F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchEngine", "SearchEngine\SearchEngine.csproj", "{4ACD6A01-8447-4603-98F1-A15D9DD642F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchEngine.SeleniumTests", "SearchEngine.SeleniumTests\SearchEngine.SeleniumTests.csproj", "{E14904FB-FD49-4D86-B8C4-4077E165B7DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4ACD6A01-8447-4603-98F1-A15D9DD642F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ACD6A01-8447-4603-98F1-A15D9DD642F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ACD6A01-8447-4603-98F1-A15D9DD642F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E14904FB-FD49-4D86-B8C4-4077E165B7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E14904FB-FD49-4D86-B8C4-4077E165B7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E14904FB-FD49-4D86-B8C4-4077E165B7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E14904FB-FD49-4D86-B8C4-4077E165B7DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

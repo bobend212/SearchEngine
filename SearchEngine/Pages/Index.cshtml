@@ -25,7 +25,7 @@
     <div style="display: flex; justify-content: space-between; align-items: baseline">
 
         <div>
-            <p>Found <b>@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</b> publications </p>
+            <p>Found <span class="totalCountText" style="font-weight: bold">@Model.TotalCount.ToString("#,#", CultureInfo.InvariantCulture)</span> publications </p>
         </div>
         @if (!String.IsNullOrEmpty(@Model.SearchQuery))
         {
@@ -77,7 +77,7 @@
 else
 {
     <div class="text-center p-2" style="border: solid black 1px; border-radius: 10px">
-        <h4>There are no publications matching <b><i>@Model.SearchQuery</i></b> query.</h4>
+        <h4 class="no_records">There are no publications matching <b><i>@Model.SearchQuery</i></b> query.</h4>
     </div>
 }
 
